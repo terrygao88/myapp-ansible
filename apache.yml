@@ -1,0 +1,18 @@
+---
+  - name: Install and configure tomcat
+    hosts: webservers 
+    gather_facts: false
+    vars:
+      java_v: java-1.8.0-openjdk
+      set_java: java-1.8.0-openjdk
+      tomcat_port: 8090
+      tomcat_version: 9.0.48
+      tomcat_url: "https://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-9/v9.0.48/bin/apache-tomcat-9.0.48.tar.gz"
+    become: yes
+    tasks:
+     - name: Copy the war file  
+       copy:  
+         src: /var/lib/jenkins/workspace/ansible_project/target/demo-0.0.1-SNAPSHOT.war 
+         dest: /usr/local/tomcat/webapps
+     - name: start tomcat services
+       command: "nohup /usr/local/tomcat/bin/startup.sh" 
